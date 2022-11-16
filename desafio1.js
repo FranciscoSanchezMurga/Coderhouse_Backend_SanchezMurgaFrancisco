@@ -49,9 +49,7 @@ class Usuario {
     };
 
     countMascotas() {
-        let i = 0;
-        (this.mascotas).forEach( ()=> i += 1 )
-        return i;
+        return (this.mascotas).length
     };
 
     addBook(nombreLibro, autor) {
