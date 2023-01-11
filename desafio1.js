@@ -1,89 +1,75 @@
-/*
-
-Formato: Un documento de texto con nombre de archivo “ApellidoNombre” con que cumpla la siguiente consigna.
----
->> Consigna: 
-1) Declarar una clase Usuario
-
-2) Hacer que Usuario cuente con los siguientes atributos:
-nombre: String
-apellido: String
-libros: Object[]
-mascotas: String[]
-
-Los valores de los atributos se deberán cargar a través del constructor, al momento de crear las instancias.
-
-3) Hacer que Usuario cuente con los siguientes métodos:
-    getFullName(): String. Retorna el completo del usuario. Utilizar template strings.
-    addMascota(String): void. Recibe un nombre de mascota y lo agrega al array de mascotas.
-    countMascotas(): Number. Retorna la cantidad de mascotas que tiene el usuario.
-    addBook(String, String): void. Recibe un string 'nombre' y un string 'autor' y debe agregar un objeto: { nombre: String, autor: String } al array de libros.
-    getBookNames(): String[]. Retorna un array con sólo los nombres del array de libros del usuario.
-
-4) Crear un objeto llamado usuario con valores arbitrarios e invocar todos sus métodos.
-
->> Ejemplos:
-
-countMascotas: Suponiendo que el usuario tiene estas mascotas: ['perro', 'gato'] usuario.countMascotas() debería devolver 2.
-
-getBooks: Suponiendo que el usuario tiene estos libros: [{nombre: 'El señor de las moscas',autor: 'William Golding'}, {nombre: 'Fundacion', autor: 'Isaac Asimov'}] usuario.getBooks() debería devolver ['El señor de las moscas', 'Fundacion'].
-
-getFullName: Suponiendo que el usuario tiene: nombre: 'Elon' y apellido: 'Musk' usuario.getFullName() deberia devolver 'Elon Musk'
-
-*/
-
-class Usuario {
-    constructor(nombre, apellido, libros, mascotas) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.libros = libros;
-        this.mascotas = mascotas;
-    };
-
-    getFullName() {
-        return `${this.nombre} ${this.apellido}`;
-    };
-
-    addMascota(nombreMascota) {
-        (this.mascotas).push(nombreMascota);
-    };
-
-    countMascotas() {
-        return (this.mascotas).length
-    };
-
-    addBook(nombreLibro, autor) {
-        (this.libros).push({nombre: nombreLibro, autor: autor});
-    };
-
-    getBookNames() {
-        let nombreLibros = [];
-        (this.libros).forEach( libro => {
-            nombreLibros.push(libro.nombre);
+class ProductManager {
+    constructor() {
+        this.products = []
+    }
+    incrementableId() {
+        let idMax = 0
+        this.products.forEach(product => {
+            if (product.id > idMax) {
+                idMax = product.id
+            }
         });
-        return nombreLibros;
-    };
-};
+        return idMax + 1;
+    }
+    addProduct(title, description, price, thumbnail, code, stock) {
+        if (this.existCode(code)) {
+            console.log("This product already exists.")
+        }
+        else {
+            if (title && description && price && thumbnail && code && stock) {
+                let newProduct = {
+                    id: this.incrementableId(),
+                    title,
+                    description,
+                    price,
+                    thumbnail,
+                    code,
+                    stock
+                }
+                this.products.push(newProduct);
+            }
+            else {
+                console.log("There are missing fields. Complete them and try again.");
+            }
+        }
 
-const nombre = 'Francisco';
-const apellido = 'Sánchez Murga';
-const libros = [{nombre: 'Soy Roca',autor: 'Felix Luna'},{nombre: 'La riqueza de las naciones',autor: 'Adam Smith'}];
-const mascotas = ['Perro','Gato','Loro'];
+    }
+    getProducts() {
+        return this.products;
+    }
 
-const usuario = new Usuario(nombre,apellido,libros,mascotas);
-console.log('Nombre completo del usuario (string):')
-console.log(usuario.getFullName()); 
-console.log('Mascotas que el usuario tiene inicialmente (number):')
-console.log(usuario.countMascotas()); 
-console.log('Agrego string "hamster".')
-usuario.addMascota('hamster');
-console.log('Nueva cantidad de mascotas del usuario (number):');
-console.log(usuario.countMascotas());
-console.log('Nombres de los libros(array):');
-console.log(usuario.getBookNames());
-console.log('Agrego un nuevo libro (objeto) con 2 string como parámetros.')
-usuario.addBook('Deuda soberana','Alejandro Olmos Gaona');
-console.log('Nombre de los libros tras agregar uno nuevo (array):');
-console.log(usuario.getBookNames());
-
-
+    getProductsById(id) {
+        let answer = this.findProduct(id)
+        if (!this.findProduct(id)) {
+            answer = "No registered products."
+        }
+        return answer ;
+    }
+    
+    //funciones auxiliares
+    existCode(code) {
+        let exist = this.products.some(product => product.code == code)
+        return exist;
+    }
+    findProduct(id) {
+        let searchProduct = this.products.find(product => product.id == id)
+        return searchProduct;
+    }
+    deleteById(id) {
+        let removeItem = this.findProduct(id);
+        let index = this.products.indexOf(removeItem);
+        let deletebyIndex = this.products.splice(index, 1);
+        return deletebyIndex;
+    }
+}
+const productManager = new ProductManager()
+productManager.addProduct("Test", "test", 12000, "test", "AB125", 5);
+productManager.addProduct("Test1", "Test1", 15000, "AB125", 5);
+productManager.addProduct("Test1", "Test1", 15000, "AB128", 5);
+console.log(productManager.getProducts())
+productManager.deleteById(2)
+productManager.addProduct("Monitor", "Monitor Led", 2000, "imagen", "AB129", 5);
+productManager.addProduct("Placa de Audio", "Placa Premium", 2000, "imagen", "AB130", 5);
+console.log(productManager.getProducts())
+console.log(productManager.getProductsById(3))
+console.log(productManager.getProductsById(4))
