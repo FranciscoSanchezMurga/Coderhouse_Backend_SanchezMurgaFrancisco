@@ -1,89 +1,70 @@
 /*
 
-Formato: Un documento de texto con nombre de archivo “ApellidoNombre” con que cumpla la siguiente consigna.
----
->> Consigna: 
-1) Declarar una clase Usuario
+DESAFÍO ENTREGABLE - PROCESO DE TESTING
 
-2) Hacer que Usuario cuente con los siguientes atributos:
-nombre: String
-apellido: String
-libros: Object[]
-mascotas: String[]
+(Clases con ECMAScript y ECMAScript avanzado)
 
-Los valores de los atributos se deberán cargar a través del constructor, al momento de crear las instancias.
-
-3) Hacer que Usuario cuente con los siguientes métodos:
-    getFullName(): String. Retorna el completo del usuario. Utilizar template strings.
-    addMascota(String): void. Recibe un nombre de mascota y lo agrega al array de mascotas.
-    countMascotas(): Number. Retorna la cantidad de mascotas que tiene el usuario.
-    addBook(String, String): void. Recibe un string 'nombre' y un string 'autor' y debe agregar un objeto: { nombre: String, autor: String } al array de libros.
-    getBookNames(): String[]. Retorna un array con sólo los nombres del array de libros del usuario.
-
-4) Crear un objeto llamado usuario con valores arbitrarios e invocar todos sus métodos.
-
->> Ejemplos:
-
-countMascotas: Suponiendo que el usuario tiene estas mascotas: ['perro', 'gato'] usuario.countMascotas() debería devolver 2.
-
-getBooks: Suponiendo que el usuario tiene estos libros: [{nombre: 'El señor de las moscas',autor: 'William Golding'}, {nombre: 'Fundacion', autor: 'Isaac Asimov'}] usuario.getBooks() debería devolver ['El señor de las moscas', 'Fundacion'].
-
-getFullName: Suponiendo que el usuario tiene: nombre: 'Elon' y apellido: 'Musk' usuario.getFullName() deberia devolver 'Elon Musk'
+-Se creará una instancia de la clase “ProductManager”
+-Se llamará “getProducts” recién creada la instancia, debe devolver un arreglo vacío []
+-Se llamará al método “addProduct” con los campos:
+    title: “producto prueba”
+    description:”Este es un producto prueba”
+    price:200,
+    thumbnail:”Sin imagen”
+    code:”abc123”,
+    stock:25
+-El objeto debe agregarse satisfactoriamente con un id generado automáticamente SIN REPETIRSE
+-Se llamará el método “getProducts” nuevamente, esta vez debe aparecer el producto recién agregado
+-Se llamará al método “addProduct” con los mismos campos de arriba, debe arrojar un error porque el código estará repetido.
+-Se evaluará que getProductById devuelva error si no encuentra el producto o el producto en caso de encontrarlo
 
 */
+let codes = [];
 
-class Usuario {
-    constructor(nombre, apellido, libros, mascotas) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.libros = libros;
-        this.mascotas = mascotas;
-    };
+class ProductManager {
+        constructor (title,description,price,thumbnail,code,stock) {
+            let previousExistance = this.consultCode(this.code);
+            if (previousExistance == false) {
+                this.title = title;
+                this.description = description;
+                this.price = price;
+                this.thumbnail = thumbnail;
+                this.code = code;
+                console.log(codes);
+                codes.push(code);
+                console.log(codes);
+                this.stock = stock;
+                this.getProducts();
+            } else {
+                console.log('ERROR!! Código ya utilizado antes.');
+            };         
+        };
 
-    getFullName() {
-        return `${this.nombre} ${this.apellido}`;
-    };
+        getProducts() {
+            console.log('Hola');
+        };
 
-    addMascota(nombreMascota) {
-        (this.mascotas).push(nombreMascota);
-    };
-
-    countMascotas() {
-        return (this.mascotas).length
-    };
-
-    addBook(nombreLibro, autor) {
-        (this.libros).push({nombre: nombreLibro, autor: autor});
-    };
-
-    getBookNames() {
-        let nombreLibros = [];
-        (this.libros).forEach( libro => {
-            nombreLibros.push(libro.nombre);
-        });
-        return nombreLibros;
-    };
+        consultCode(newCode) {
+         codes.forEach( codeStored => {
+            if(codeStored == newCode) {
+                return true;
+            };
+         });
+        };
 };
 
-const nombre = 'Francisco';
-const apellido = 'Sánchez Murga';
-const libros = [{nombre: 'Soy Roca',autor: 'Felix Luna'},{nombre: 'La riqueza de las naciones',autor: 'Adam Smith'}];
-const mascotas = ['Perro','Gato','Loro'];
+const product1 = {
+    title: "producto prueba",
+    description: "Este es un producto prueba",
+    price:200,
+    thumbnail:"Sin imagen",
+    code:"abc123",
+    stock:25
+};
 
-const usuario = new Usuario(nombre,apellido,libros,mascotas);
-console.log('Nombre completo del usuario (string):')
-console.log(usuario.getFullName()); 
-console.log('Mascotas que el usuario tiene inicialmente (number):')
-console.log(usuario.countMascotas()); 
-console.log('Agrego string "hamster".')
-usuario.addMascota('hamster');
-console.log('Nueva cantidad de mascotas del usuario (number):');
-console.log(usuario.countMascotas());
-console.log('Nombres de los libros(array):');
-console.log(usuario.getBookNames());
-console.log('Agrego un nuevo libro (objeto) con 2 string como parámetros.')
-usuario.addBook('Deuda soberana','Alejandro Olmos Gaona');
-console.log('Nombre de los libros tras agregar uno nuevo (array):');
-console.log(usuario.getBookNames());
+const {title,description,price,thumbnail,code,stock} = product1;
 
+const TestProduct = new ProductManager(title,description,price,thumbnail,code,stock);
+
+const TestProduct2 = new ProductManager(title,description,price,thumbnail,code,stock);
 
