@@ -1,0 +1,38 @@
+[
+    {
+        "title": "Title 13",
+        "description": "Description 13",
+        "price": "Price 13",
+        "thumbnail": "Thumbnail 13",
+        "code": "code 13",
+        "stock": 1300,
+        "id": 1
+    },
+    {
+        "title": "Cambie este título",
+        "description": "Description 12",
+        "price": "Price 12",
+        "thumbnail": "Thumbnail 12",
+        "code": "code 12",
+        "stock": 1200,
+        "id": 2
+    },
+    {
+        "title": "Title 12",
+        "description": "Description 12",
+        "price": "Price 12",
+        "thumbnail": "Thumbnail 12",
+        "code": "code 12",
+        "stock": 1200,
+        "id": 3
+    },
+    {
+        "title": "Title 12",
+        "description": "Description 12",
+        "price": "Price 12",
+        "thumbnail": "Thumbnail 12",
+        "code": "code 12",
+        "stock": 1200,
+        "id": 4
+    }
+]
